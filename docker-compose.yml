@@ -2,8 +2,7 @@ version: "3"
 
 volumes:
   db_data: {}
-  wordpress_data:
-    driver: local
+  wordpress_data: {}
 
 services:
   mariadb:
