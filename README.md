@@ -6,9 +6,11 @@ Plugin WP para se comunicar com o zoop-gateway
 1. `make config.env` para configurar as variáveis de ambiente
 2. `make up` para levantar os containers
 
-### Para acessar a tela de admin, acesse:
+## Acesando o WP
+O wp estará rodando localmente no endereço [localhost](localhost)
 
-Acesse no seu navegador `localhost/wp-admin` ou `localhost:80/wp-admin`
+### WP admin
+[localhost/wp-admin](localhost/wp-admin)
 
 - Login: imobanco
 - Senha: imobanco
