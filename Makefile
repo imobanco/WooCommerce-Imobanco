@@ -27,11 +27,3 @@ clear.docker:
 
 config.env:
 	cp .env.example .env
-
-setup.inicial:
-	docker-compose run wordpress inicial.sh
-
-setup.padrao:
-	docker-compose run wordpress padrao.sh
-
-setup: setup.inicial setup.padrao
