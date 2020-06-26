@@ -2,7 +2,7 @@ up:
 	docker-compose up -d
 
 logs:
-	docker-compose logs -f $(service)
+	docker-compose logs -f $(args)
 
 down:
 	docker-compose down
