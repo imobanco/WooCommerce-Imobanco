@@ -10,7 +10,7 @@ services:
     ports:
       - "3306:3306"
     volumes:
-      - "db_data:/bitnami/mariadb"
+      - db_data:/bitnami/mariadb
     env_file: .env
 
   wordpress:
