@@ -11,13 +11,13 @@ build:
 	docker-compose build $(args)
 
 bash.exec:
-	docker-compose exec php bash $(args)
+	docker-compose exec wordpress bash $(args)
 
 bash:
-	docker-compose run php bash $(args)
+	docker-compose run wordpress bash $(args)
 
 wp:
-	docker-compose run php wp $(args)
+	docker-compose run wordpress wp $(args)
 
 remove.volumes:
 	docker-compose down --volumes
@@ -29,9 +29,9 @@ config.env:
 	cp .env.example .env
 
 setup.inicial:
-	docker-compose run php inicial.sh
+	docker-compose run wordpress inicial.sh
 
 setup.padrao:
-	docker-compose run php padrao.sh
+	docker-compose run wordpress padrao.sh
 
 setup: setup.inicial setup.padrao
