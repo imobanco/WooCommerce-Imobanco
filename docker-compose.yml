@@ -6,7 +6,7 @@ volumes:
 
 services:
   mariadb:
-    image: "docker.io/bitnami/mariadb:10.3-debian-10"
+    image: docker.io/bitnami/mariadb:10.3-debian-10
     ports:
       - "3306:3306"
     volumes:
