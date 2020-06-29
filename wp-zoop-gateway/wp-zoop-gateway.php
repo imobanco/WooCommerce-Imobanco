@@ -4,7 +4,7 @@
 
 Plugin Name: wp-zoop-gateway
 Plugin URI: https://www.imobanco.com.br/
-Description: Plugin faz a coneção entre a aplicaçãodo imobanco e da zoop
+Description: Plugin para utilizar o gateway de pagamento do Imobanco
 Version: 1.0.0
 Author: Imobanco
 Author URI: https://www.imobanco.com.br/
