@@ -20,7 +20,7 @@ services:
       - "443:8443"
     volumes:
       - wordpress_data:/bitnami/wordpress
-      - .src:/bitnami/wordpress/wp-plugins/wp-zoop-gateway
+      - ./wp-zoop-gateway:/bitnami/wordpress/wp-content/plugins/wp-zoop-gateway
     depends_on:
       - mariadb
     env_file: .env
