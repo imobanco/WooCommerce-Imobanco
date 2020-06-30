@@ -25,3 +25,11 @@ services:
     depends_on:
       - mariadb
     env_file: .env
+    networks:
+      - rede_1
+      - default
+
+networks:
+  rede_1:
+    external:
+      name: rede_1

@@ -27,3 +27,6 @@ clear.docker:
 
 config.env:
 	cp .env.example .env
+
+reload:
+	docker-compose restart wordpress

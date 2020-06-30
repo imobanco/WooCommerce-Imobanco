@@ -11,3 +11,46 @@ Author URI: https://www.imobanco.com.br/
 License: GPLv2 or later
 
 */
+
+
+/** Step 2 (from text above). */
+add_action( 'admin_menu', 'my_plugin_menu' );
+
+/** Step 1. */
+function my_plugin_menu() {
+	add_options_page( 'My Plugin Options', 'Requisição', 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
+}
+
+/** Step 3. */
+function my_plugin_options() {
+	if ( !current_user_can( 'manage_options' ) )  {
+        wp_die( __( 'Você não tem permissão suficiente para acessar essa pagina' ) );        
+	}
+
+	$response = wp_remote_post('http://django:8000/transactions/create_invoice_transaction/',$args = [
+
+		'headers' =>[
+			'Content-Type' => 'application/json',
+			'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
+			]
+		,
+		'body' =>[ 
+			'amount' => 500,
+			'description' => 'transação de cartão',
+			'payer' => 'cadc937e-2ac4-4085-be83-3a5190376b80',
+			'receiver' => '46fe7215-5983-4d38-b400-1b14fe50d9e0',
+			'payment_method' => [			
+				'expiration_date' => '2020-06-25',
+				'limit_date' => '2020-07-14'
+			]			
+		]	
+	]
+		
+	);
+	
+	$http_code = wp_remote_retrieve_response_code( $response );
+
+	print_r($response);
+	print_r($http_code);
+}
+?>
