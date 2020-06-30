@@ -34,7 +34,7 @@ function my_plugin_options() {
 			'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
 			]
 		,
-		'body' =>[ 
+		'body' => json_encode([ 
 			'amount' => 500,
 			'description' => 'transação de cartão',
 			'payer' => 'cadc937e-2ac4-4085-be83-3a5190376b80',
@@ -43,7 +43,7 @@ function my_plugin_options() {
 				'expiration_date' => '2020-06-25',
 				'limit_date' => '2020-07-14'
 			]			
-		]	
+		])
 	]
 		
 	);
