@@ -45,12 +45,12 @@ function my_plugin_options() {
 			]			
 		])
 	]
-		
+			
 	);
 	
 	$http_code = wp_remote_retrieve_response_code( $response );
 
 	print_r($response);
-	print_r($http_code);
+	print_r($response['zoop_url']);
 }
 ?>
