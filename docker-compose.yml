@@ -21,7 +21,7 @@ services:
       - "443:8443"
     volumes:
       - wordpress_data:/bitnami/wordpress
-      - ./wp-zoop-gateway:/bitnami/wordpress/wp-content/plugins/wp-zoop-gateway
+      - ./woocommerce-imobanco:/bitnami/wordpress/wp-content/plugins/woocommerce-imobanco
     depends_on:
       - mariadb
     env_file: .env
