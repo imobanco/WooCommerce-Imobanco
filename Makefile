@@ -30,3 +30,5 @@ config.env:
 
 reload:
 	docker-compose restart wordpress
+
+reload.logs: reload logs

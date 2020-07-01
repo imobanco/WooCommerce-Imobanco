@@ -12,7 +12,6 @@ License: GPLv2 or later
 
 */
 
-
 /** Step 2 (from text above). */
 add_action( 'admin_menu', 'my_plugin_menu' );
 
@@ -27,7 +26,9 @@ function my_plugin_options() {
         wp_die( __( 'Você não tem permissão suficiente para acessar essa pagina' ) );        
 	}
 
-	$response = wp_remote_post('http://django:8000/transactions/create_invoice_transaction/',$args = [
+	$url = 'http://django:8000/transactions/create_invoice_transaction/';
+
+	$response = wp_remote_post($url,$args = [
 
 		'headers' =>[
 			'Content-Type' => 'application/json',
@@ -49,12 +50,20 @@ function my_plugin_options() {
 	);
 	
 	$http_code = wp_remote_retrieve_response_code( $response );
-	// print_r($response);
-	// print_r($response->'body');	
-
-	echo '<pre>';
-	print_r($response['body']->id);
-	echo '</pre>';
+	
+	$jsonDecodificado = json_decode(json_encode($response['body']),true);
+	// var_dump($response['body']);
+	// $Data = file_get_contents($response);
+	// $json = json_encode($Data, true);
+	// $json2 = json_encode($response);
+	//  echo '<pre>';
+	//  print_r( var_dump($json2));	
+	//  echo '</pre>';
+	$data = $response;
+	$json = json_encode($data);
+	$decode  = (json_decode($json));
+	var_dump($decode['body']);
+	
 }
 ?>
 
