@@ -28,6 +28,8 @@ function my_plugin_options() {
 
 	$url = 'http://django:8000/transactions/create_invoice_transaction/';
 
+	 
+
 	$response = wp_remote_post($url,$args = [
 
 		'headers' =>[
@@ -50,39 +52,14 @@ function my_plugin_options() {
 	);
 	
 	$http_code = wp_remote_retrieve_response_code( $response );
-	
-	$jsonDecodificado = json_decode(json_encode($response['body']),true);
-	// var_dump($response['body']);
-	// $Data = file_get_contents($response);
-	// $json = json_encode($Data, true);
-	// $json2 = json_encode($response);
-	//  echo '<pre>';
-	//  print_r( var_dump($json2));	
-	//  echo '</pre>';
-	$data = $response;
-	$json = json_encode($data);
-	$decode  = (json_decode($json));
-	var_dump($decode['body']);
-	
+		
+	$body = json_decode($response['body'],true);
+	echo '<pre>';
+	var_dump($body['payment_method']['id']);
+	echo '</pre>';
 }
 ?>
 
 
-<!-- {	
-	"id":"edcc4f1c-9bea-47dc-a2b6-ed73b998ef25",
-	"zoop_transaction_id":"34f18e6313e24aafb7c0c9dd4bf9d4c6",
-	"status":null,
-	"payer":"cadc937e-2ac4-4085-be83-3a5190376b80",
-	"receiver":"46fe7215-5983-4d38-b400-1b14fe50d9e0",
-	"amount":500,"description":"transação de cartão",
-	"payment_method":{
-	"id":"c7b6a77a-cc22-439c-b118-f781fbb807cf",
-	"zoop_invoice_id":"2e49661a73884f6ebaf29f1ebae75e09",
-	"status":"not_paid","barcode":"34191090407069382893431339210002783050000000500",
-	"zoop_url":"https://api-boleto-production.s3.amazonaws.com/d77c2258b51d49269191502695f939f4/6095b3e9bd6540c2ba0779f1638e2d0e/5efba6ad99506107d97f761e.html",
-	"description":"transação de cartão",
-	"expiration_date":"2020-06-25",
-	"limit_date":"2020-07-14"
-	}
-} -->
+
 
