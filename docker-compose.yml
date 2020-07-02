@@ -26,10 +26,10 @@ services:
       - mariadb
     env_file: .env
     networks:
-      - rede_1
+      - imobanco
       - default
 
 networks:
-  rede_1:
+  imobanco:
     external:
-      name: rede_1
+      name: imobanco
