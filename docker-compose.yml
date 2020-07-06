@@ -22,6 +22,7 @@ services:
     volumes:
       - wordpress_data:/bitnami/wordpress
       - ./woocommerce-imobanco:/bitnami/wordpress/wp-content/plugins/woocommerce-imobanco
+      - ./simply-show-hooks:/bitnami/wordpress/wp-content/plugins/simply-show-hooks
     depends_on:
       - mariadb
     env_file: .env
