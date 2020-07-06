@@ -60,8 +60,7 @@ License: GPLv2 or later
 // }
 
 // essa função cria um paragrafo na tela principal do WP
-function ola_plugin(){
-	
+function ola_plugin(){	
 	?>
 	<div>
 		<p>Teste de Atualização!<p>
@@ -104,8 +103,7 @@ function chama_api($current_user) {
 	//  echo '<pre>';
 	//  print_r($body['payment_method']['id']);
 	//  echo '</pre>';
-	
-	
+
 }
 
 ?>
