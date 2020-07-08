@@ -37,7 +37,7 @@ License: GPLv2 or later
  	 	,
  	 	'body' => json_encode([ 
  	 		'birthdate' => '2000-10-10',
- 	 		'cpf_cnpj' => '18236120000158',
+ 	 		'cpf_cnpj' => '63924537097',
  	 		'email' => 'exemplo@exemplo.com',
               'first_name' => 'Exemplo',
               'last_name' => 'exemplo',
