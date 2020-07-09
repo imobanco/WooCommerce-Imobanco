@@ -12,6 +12,8 @@ License: GPLv2 or later
 
 */
 
+/*Trecho do codigo para DEBUG*/
+
 /** Step 1. */
   function my_plugin_menu() {
   	add_options_page( 'My Plugin Options', 'Requisição', 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
@@ -21,13 +23,24 @@ License: GPLv2 or later
   add_action( 'admin_menu', 'my_plugin_menu' );
 
 /** Step 3. */
-  function my_plugin_options($current_use) {
+  function my_plugin_options($user_id) {
   	if ( !current_user_can( 'manage_options' ) )  {
          wp_die( __( 'Você não tem permissão suficiente para acessar essa pagina' ) );        
   	}
 
- 	 $url = 'http://django:8000/buyers/';	 
+      $url = 'http://django:8000/buyers/';
+      	 
+      $current_user_id = get_current_user_id();
+      $user_meta = get_user_meta($current_user_id);
+      $user_data = get_userdata($current_user_id);
 
+      $bday = $user_meta['birthday']['0'];
+    //   $cpf_cnpj = 
+    //   $email = 
+    //   $firstName = 
+    //   $lastName =
+    //   $phone = 
+      
  	 $response = wp_remote_post($url,$args = [
 
  	 	'headers' =>[
@@ -36,23 +49,23 @@ License: GPLv2 or later
  	 		]
  	 	,
  	 	'body' => json_encode([ 
- 	 		'birthdate' => '2000-10-10',
+ 	 		'birthdate' => $bday,
  	 		'cpf_cnpj' => '63924537097',
  	 		'email' => 'exemplo@exemplo.com',
-              'first_name' => 'Exemplo',
-              'last_name' => 'exemplo',
-              'mobile_phone' => '84999999999'
+            'first_name' => 'Exemplo',
+            'last_name' => 'exemplo',
+            'mobile_phone' => '84999999999'
  	 				
 	 	])
  	 ]
 			
- 	 );
-	
- 	 $http_code = wp_remote_retrieve_response_code( $response );		
- 	  $body = json_decode($response['body'],true);
- 	  echo '<pre>';
- 	  print_r($body);
- 	  echo '</pre>';
+ 	 );         
+
+ 	   $http_code = wp_remote_retrieve_response_code( $response );		
+ 	   $body = json_decode($response['body'],true);
+ 	   echo '<pre>';
+ 	   print_r($user_meta);
+ 	   echo '</pre>';
   }
 
 // essa função cria um paragrafo na tela principal do WP
@@ -66,7 +79,7 @@ License: GPLv2 or later
 
 // add_action('all_admin_notices', 'ola_plugin');
 
-/* Trecho de codigo não debugado */
+/* Trecho de codigo sem DEBUG */
 
 add_action( 'profile_update', 'chama_api', 10, 2 );
 
