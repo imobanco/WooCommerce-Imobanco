@@ -23,7 +23,7 @@ License: GPLv2 or later
   add_action( 'admin_menu', 'my_plugin_menu' );
 
 /** Step 3. */
-  function my_plugin_options($user_id) {
+  function my_plugin_options() {
   	if ( !current_user_can( 'manage_options' ) )  {
          wp_die( __( 'Você não tem permissão suficiente para acessar essa pagina' ) );        
   	}
@@ -35,10 +35,10 @@ License: GPLv2 or later
       $user_data = get_userdata($current_user_id);
 
       $bday = $user_meta['birthday']['0'];
-    //   $cpf_cnpj = 
-    //   $email = 
-    //   $firstName = 
-    //   $lastName =
+    //   $cpf_cnpj = $user_meta['cpfcnpj']['0']
+    //   $email = $user_data['']['']
+    //   $firstName = $user_meta['first_name']['0']
+    //   $lastName = $user_meta['last_name']['0']
     //   $phone = 
       
  	 $response = wp_remote_post($url,$args = [
@@ -86,6 +86,8 @@ add_action( 'profile_update', 'chama_api', 10, 2 );
 function chama_api($user_id) {
 	
 	$url = 'http://django:8000/transactions/create_invoice_transaction/';
+
+    // $current_user_id = $user_id; pega o user_id 
 
 	$response = wp_remote_post($url,$args = [
 
