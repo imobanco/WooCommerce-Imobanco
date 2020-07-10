@@ -34,14 +34,14 @@ License: GPLv2 or later
       $user_meta = get_user_meta($current_user_id);
       $user_data = get_userdata($current_user_id);
             
-      $user_data_email = $user_data->data->user_email; // forma de acessar os attrs quando for stdclass
+    //   $user_data_email = $user_data->data->user_email; // forma de acessar os attrs quando for stdclass
 
       $bday = $user_meta['birthday']['0']; // forma de acessar os attr quando for array
-    //   $cpf_cnpj = $user_meta['cpfcnpj']['0'];
-    //   $email = $user_data['']['']
-    //    $firstName = $user_meta['first_name']['0'];
-    //    $lastName = $user_meta['last_name']['0'];
-    //   $phone = 
+      $cpf_cnpj = $user_meta['cpfcnpj']['0'];
+      $email = $user_data->data->user_email;
+      $firstName = $user_meta['first_name']['0'];
+      $lastName = $user_meta['last_name']['0'];
+    //  $phone = 
       
  	 $response = wp_remote_post($url,$args = [
 
@@ -52,10 +52,10 @@ License: GPLv2 or later
  	 	,
  	 	'body' => json_encode([ 
  	 		'birthdate' => $bday,
- 	 		'cpf_cnpj' => '63924537097',
- 	 		'email' => 'exemplo@exemplo.com',
-            'first_name' => 'Exemplo',
-            'last_name' => 'exemplo',
+ 	 		'cpf_cnpj' => $cpf_cnpj,
+ 	 		'email' => $email,
+            'first_name' => $firstName,
+            'last_name' => $lastName,
             'mobile_phone' => '84999999999'
  	 				
 	 	])
@@ -68,7 +68,7 @@ License: GPLv2 or later
        
 
  	   echo '<pre>';
- 	   print_r($user_meta);
+ 	   print_r($body);
  	   echo '</pre>';
   }
 
