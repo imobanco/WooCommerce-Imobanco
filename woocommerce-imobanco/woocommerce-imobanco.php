@@ -129,10 +129,7 @@ function chama_api($user_id) {
 	);
 	
 	$http_code = wp_remote_retrieve_response_code( $response );		
-	$body = json_decode($response['body'],true);
-	//  echo '<pre>';
-	//  print_r($body['payment_method']['id']);
-	//  echo '</pre>';
+	$body = json_decode($response['body'],true);	
 
 	return update_user_meta(
         $user_id,
