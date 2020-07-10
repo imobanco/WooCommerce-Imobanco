@@ -15,69 +15,69 @@ License: GPLv2 or later
 /*Trecho do codigo para DEBUG*/
 
 /** Step 1. */
-  function my_plugin_menu() {
-  	add_options_page( 'My Plugin Options', 'Requisição', 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
-  }
+//   function my_plugin_menu() {
+//   	add_options_page( 'My Plugin Options', 'Requisição', 'manage_options', 'my-unique-identifier', 'my_plugin_options' );
+//   }
 
 /** Step 2 (from text above). */
-  add_action( 'admin_menu', 'my_plugin_menu' );
+//   add_action( 'admin_menu', 'my_plugin_menu' );
 
 /** Step 3. */
-  function my_plugin_options() {
-  	if ( !current_user_can( 'manage_options' ) )  {
-         wp_die( __( 'Você não tem permissão suficiente para acessar essa pagina' ) );        
-  	}
+//   function my_plugin_options() {
+//   	if ( !current_user_can( 'manage_options' ) )  {
+//          wp_die( __( 'Você não tem permissão suficiente para acessar essa pagina' ) );        
+//   	}
 
-      $url = 'http://django:8000/buyers/';
+//       $url = 'http://django:8000/buyers/';
       	 
-      $current_user_id = get_current_user_id();
-      $user_meta = get_user_meta($current_user_id);
-      $user_data = get_userdata($current_user_id);
+//       $current_user_id = get_current_user_id();
+//       $user_meta = get_user_meta($current_user_id);
+//       $user_data = get_userdata($current_user_id);
             
-    //   $user_data_email = $user_data->data->user_email; // forma de acessar os attrs quando for stdclass
+//     //   $user_data_email = $user_data->data->user_email; // forma de acessar os attrs quando for stdclass
 
-      $bday = $user_meta['birthday']['0']; // forma de acessar os attr quando for array
-      $cpf_cnpj = $user_meta['cpfcnpj']['0'];
-      $email = $user_data->data->user_email;
-      $firstName = $user_meta['first_name']['0'];
-      $lastName = $user_meta['last_name']['0'];
-    //  $phone = 
+//       $bday = $user_meta['birthday']['0']; // forma de acessar os attr quando for array
+//       $cpf_cnpj = $user_meta['cpfcnpj']['0'];
+//       $email = $user_data->data->user_email;
+//       $firstName = $user_meta['first_name']['0'];
+//       $lastName = $user_meta['last_name']['0'];
+//     //  $phone = 
       
- 	 $response = wp_remote_post($url,$args = [
+//  	 $response = wp_remote_post($url,$args = [
 
- 	 	'headers' =>[
-	 		'Content-Type' => 'application/json',
- 	 		'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
- 	 		]
- 	 	,
- 	 	'body' => json_encode([ 
- 	 		'birthdate' => $bday,
- 	 		'cpf_cnpj' => $cpf_cnpj,
- 	 		'email' => $email,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'mobile_phone' => '84999999999'
+//  	 	'headers' =>[
+// 	 		'Content-Type' => 'application/json',
+//  	 		'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
+//  	 		]
+//  	 	,
+//  	 	'body' => json_encode([ 
+//  	 		'birthdate' => $bday,
+//  	 		'cpf_cnpj' => $cpf_cnpj,
+//  	 		'email' => $email,
+//             'first_name' => $firstName,
+//             'last_name' => $lastName,
+//             'mobile_phone' => '84999999999'
  	 				
-	 	])
- 	 ]
+// 	 	])
+//  	 ]
 			
-      );         
+//       );         
       
       
 
- 	   $http_code = wp_remote_retrieve_response_code( $response );		
-       $body = json_decode($response['body'],true);
+//  	  $http_code = wp_remote_retrieve_response_code( $response );		
+//        $body = json_decode($response['body'],true);
        
-       return update_user_meta(
-        $current_user_id,
-        'imopay_id',
-        $body['id']
-    );
+//        return update_user_meta(
+//         $current_user_id,
+//         'imopay_id',
+//         $body['id']
+//     );
 
- 	   echo '<pre>';
- 	   print_r($body);
- 	   echo '</pre>';
-  }
+//  	   echo '<pre>';
+//  	   print_r($body);
+//  	   echo '</pre>';
+//   }
 
 // essa função cria um paragrafo na tela principal do WP
 /*function ola_plugin(){	
@@ -96,33 +96,40 @@ add_action( 'profile_update', 'chama_api', 10, 2 );
 
 function chama_api($user_id) {
 	
-	$url = 'http://django:8000/transactions/create_invoice_transaction/';
-
-    // $current_user_id = $user_id; pega o user_id 
+	$url = 'http://django:8000/buyers/';
+   
+    $user_meta = get_user_meta($user_id);
+    $user_data = get_userdata($user_id);
+    
+    $bday = $user_meta['birthday']['0'];
+    $cpf_cnpj = $user_meta['cpfcnpj']['0'];
+    $email = $user_data->data->user_email;
+    $firstName = $user_meta['first_name']['0'];
+    $lastName = $user_meta['last_name']['0'];
+    //  $phone = 
 
 	$response = wp_remote_post($url,$args = [
 
-		'headers' =>[
-			'Content-Type' => 'application/json',
-			'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
-			]
-		,
-		'body' => json_encode([ 
-			'amount' => 500,
-			'description' => 'transação de cartão',
-			'payer' => 'cadc937e-2ac4-4085-be83-3a5190376b80',
-			'receiver' => '46fe7215-5983-4d38-b400-1b14fe50d9e0',
-			'payment_method' => [			
-				'expiration_date' => '2020-06-25',
-				'limit_date' => '2020-07-14'
-			]			
-		])
-	]
+        'headers' =>[
+           'Content-Type' => 'application/json',
+            'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
+            ]
+        ,
+        'body' => json_encode([ 
+          'birthdate' => $bday,
+          'cpf_cnpj' => $cpf_cnpj,
+          'email' => $email,
+          'first_name' => $firstName,
+          'last_name' => $lastName,
+          'mobile_phone' => '84999999999'
+                    
+       ])
+    ]
 			
 	);
 	
-	// $http_code = wp_remote_retrieve_response_code( $response );		
-	//  $body = json_decode($response['body'],true);
+	$http_code = wp_remote_retrieve_response_code( $response );		
+	$body = json_decode($response['body'],true);
 	//  echo '<pre>';
 	//  print_r($body['payment_method']['id']);
 	//  echo '</pre>';
@@ -130,7 +137,7 @@ function chama_api($user_id) {
 	return update_user_meta(
         $user_id,
         'imopay_id',
-			1
+        $body['id']
     );
 
 }
