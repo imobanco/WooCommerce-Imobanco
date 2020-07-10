@@ -61,11 +61,18 @@ License: GPLv2 or later
 	 	])
  	 ]
 			
- 	 );         
+      );         
+      
+      
 
  	   $http_code = wp_remote_retrieve_response_code( $response );		
        $body = json_decode($response['body'],true);
        
+       return update_user_meta(
+        $current_user_id,
+        'imopay_id',
+        $body['id']
+    );
 
  	   echo '<pre>';
  	   print_r($body);
