@@ -101,7 +101,7 @@ function chama_api($user_id) {
     $user_meta = get_user_meta($user_id);
     $user_data = get_userdata($user_id);
     
-    $bday = $user_meta['birthday']['0'];
+    $bday = $user_meta['birthdate']['0'];
     $cpf_cnpj = $user_meta['cpfcnpj']['0'];
     $email = $user_data->data->user_email;
     $firstName = $user_meta['first_name']['0'];
