@@ -145,7 +145,7 @@ function chama_api($user_id) {
  *
  * @param $user WP_User user object
  */
-function wporg_usermeta_form_field_birthday( $user ){
+function wporg_usermeta_form_field_birthdate( $user ){
 	?>
     <h3>Birthdate</h3>
     <table class="form-table">
