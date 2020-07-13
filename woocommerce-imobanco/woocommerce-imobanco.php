@@ -106,7 +106,7 @@ function chama_api($user_id) {
     $email = $user_data->data->user_email;
     $firstName = $user_meta['first_name']['0'];
     $lastName = $user_meta['last_name']['0'];
-    //  $phone = 
+    $phone = $user_meta['phone']['0'];
 
 	$response = wp_remote_post($url,$args = [
 
@@ -121,7 +121,7 @@ function chama_api($user_id) {
           'email' => $email,
           'first_name' => $firstName,
           'last_name' => $lastName,
-          'mobile_phone' => '84999999999'
+          'mobile_phone' => $phone
                     
        ])
     ]
