@@ -139,6 +139,7 @@ function chama_api($user_id) {
 
 }
 
+/* INICIO DO CAMPO DE BIRTHDATE*/
 /**
  * The field on the editing screens.
  *
@@ -217,6 +218,9 @@ add_action(
     'wporg_usermeta_form_field_birthday_update'
 );
 
+/* FIM DO CAMPO DE BIRTHDATE*/
+
+/* INICIO DO CAMPO DE CPF/CNPJ*/
 /**
  * The field on the editing screens.
  *
@@ -296,7 +300,9 @@ add_action(
     'wporg_usermeta_form_field_cpf_cnpj_update'
 );
 
+/* FIM DO CAMPO DE CPF/CNPJ*/
 
+/* INICIO DO CAMPO DE PHONE NUMBER*/
 /**
  * The field on the editing screens.
  *
@@ -376,5 +382,6 @@ add_action(
     'wporg_usermeta_form_field_phone_update'
 );
 
+/* FIM DO CAMPO DE PHONE NUMBER*/
 
 ?>
