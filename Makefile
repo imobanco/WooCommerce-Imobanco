@@ -16,6 +16,9 @@ bash.exec:
 bash:
 	docker-compose run wordpress bash $(args)
 
+bash.bitnami:
+	docker-compose run --user bitnami wordpress bash $(args)
+
 wp:
 	docker-compose run wordpress wp $(args)
 
@@ -27,3 +30,8 @@ clear.docker:
 
 config.env:
 	cp .env.example .env
+
+reload:
+	docker-compose restart wordpress
+
+reload.logs: reload logs

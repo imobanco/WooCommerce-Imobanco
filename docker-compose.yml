@@ -15,12 +15,23 @@ services:
 
   wordpress:
     image: docker.io/bitnami/wordpress:5-debian-10
+    user: root
     ports:
       - "80:8080"
       - "443:8443"
     volumes:
       - wordpress_data:/bitnami/wordpress
-      - ./wp-zoop-gateway:/bitnami/wordpress/wp-content/plugins/wp-zoop-gateway
+      - ./woocommerce-imobanco:/bitnami/wordpress/wp-content/plugins/woocommerce-imobanco
+      - ./simply-show-hooks:/bitnami/wordpress/wp-content/plugins/simply-show-hooks
+      - ./woocommerce:/bitnami/wordpress/wp-content/plugins/woocommerce
     depends_on:
       - mariadb
     env_file: .env
+    networks:
+      - imobanco
+      - default
+
+networks:
+  imobanco:
+    external:
+      name: imobanco
