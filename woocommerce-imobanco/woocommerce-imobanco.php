@@ -147,23 +147,23 @@ function chama_api($user_id) {
  */
 function wporg_usermeta_form_field_birthday( $user ){
 	?>
-    <h3>It's Your Birthday</h3>
+    <h3>Birthdate</h3>
     <table class="form-table">
         <tr>
             <th>
-                <label for="birthday">Birthday</label>
+                <label for="birthdate">Birthdate</label>
             </th>
             <td>
                 <input type="date"
                        class="regular-text ltr"
-                       id="birthday"
-                       name="birthday"
-                       value="<?= esc_attr( get_user_meta( $user->ID, 'birthday', true ) ) ?>"
+                       id="birthdate"
+                       name="birthdate"
+                       value="<?= esc_attr( get_user_meta( $user->ID, 'birthdate', true ) ) ?>"
                        title="Please use YYYY-MM-DD as the date format."
                        pattern="(19[0-9][0-9]|20[0-9][0-9])-(1[0-2]|0[1-9])-(3[01]|[21][0-9]|0[1-9])"
                        required>
                 <p class="description">
-                    Please enter your birthday date.
+                    Please enter your birthdate.
                 </p>
             </td>
         </tr>
