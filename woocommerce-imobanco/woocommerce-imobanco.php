@@ -15,45 +15,157 @@ License: GPLv2 or later
 /*Trecho do codigo para DEBUG*/
 
 /** função que cria a pagina extra */
-function my_plugin_menu()
+// function my_plugin_menu()
+// {
+//     add_options_page('My Plugin Options', 'Requisição', 'manage_options', 'my-unique-identifier', 'my_plugin_options');
+// }
+
+// /** adiciona o menu no dashboard */
+// add_action('admin_menu', 'my_plugin_menu');
+
+// /** função que vai fazer alguma coisa  */
+// function my_plugin_options()
+// {
+//     if (!current_user_can('manage_options')) {
+//         wp_die(__('Você não tem permissão suficiente para acessar essa pagina'));
+//     }
+
+//     $current_user_id = get_current_user_id();
+//     $user_meta = get_user_meta($current_user_id);
+//     $user_data = get_userdata($current_user_id);
+
+
+//     $bday = $user_meta['birthdate']['0'];
+//     $cpf_cnpj = $user_meta['cpfcnpj']['0'];
+//     $email = $user_data->data->user_email;
+//     $firstName = $user_meta['first_name']['0'];
+//     $lastName = $user_meta['last_name']['0'];
+
+//     echo 'try<br>';
+
+//     $imopay_id = $user_meta['imopay_id']['0'];
+
+//     echo "pos imopay_id |$imopay_id|<br>";
+
+//     echo '<br><br><br>';
+
+//     $url = 'http://service-django-dev:8000/buyers/';
+//     $api_key = 'Api-Key 8eIPr75z.7VDE85JQpskc5L2Krm1mrPUPuQ0U8cOu';
+
+//     if ($imopay_id == null) {
+//         echo 'Fazer o POST<br>';
+
+//         $response = wp_remote_post($url, $args = [
+
+//             'headers' => [
+//                 'Content-Type' => 'application/json',
+//                 'Authorization' => $api_key
+//             ],
+//             'body' => json_encode([
+//                 'birthdate' => $bday,
+//                 'cpf_cnpj' => $cpf_cnpj,
+//                 'email' => $email,
+//                 'first_name' => $firstName,
+//                 'last_name' => $lastName,
+//                 'mobile_phone' => '84999999999'
+
+//             ])
+//         ]);
+//     } else {
+//         echo 'Fazer o PATCH<br>';
+//         //faz PUT
+//         $url_put = $url . "$imopay_id/";
+
+//         $response = wp_remote_post($url_put, $args = [
+//             'method'      => 'PATCH',
+//             'headers' => [
+//                 'Content-Type' => 'application/json',
+//                 'Authorization' => $api_key
+//             ],
+//             'body' => json_encode([
+//                 'birthdate' => $bday,
+//                 'cpf_cnpj' => $cpf_cnpj,
+//                 'email' => $email,
+//                 'first_name' => $firstName,
+//                 'last_name' => $lastName,
+//                 'mobile_phone' => '84999999999'
+
+//             ])
+//         ]);
+//     }
+
+//     echo '<br><br><br>';
+
+//     var_dump($response);
+
+//     echo '<br><br><br>';
+
+//     $http_code = wp_remote_retrieve_response_code($response);
+//     $body = json_decode($response['body'], true);
+
+
+//     echo '<br><br><br>';
+//     var_dump($http_code);
+
+//     echo '<br><br><br>';
+//     var_dump($body);
+
+//     echo '<br><br><br>';
+//     echo '|';
+//     echo $http_code === 200;
+//     echo '|';
+
+//     echo '<br><br><br>';
+//     echo '|';
+//     echo $http_code === 201;
+//     echo '|';
+
+//     echo '<br><br><br>';
+//     echo '|';
+//     echo $http_code === 200 || $http_code === 201;
+//     echo '|';
+
+//     echo '<br><br><br>';
+
+//     if ($http_code === 200 || $http_code === 201) {
+//         echo 'Entrou if!';
+//         return update_user_meta(
+//             $current_user_id,
+//             'imopay_id',
+//             $body['id']
+//         );
+//     } else {
+//         echo 'Entrou else! Faça sua lógica para retornar pro usuário!';
+//         echo '<pre>';
+//         print_r($http_code);
+//         echo '</pre>';
+//     }
+// }
+
+/* Trecho de codigo sem DEBUG ---------------------------------------------------------------------*/
+
+add_action('profile_update', 'chama_api', 10, 2);
+
+function chama_api($user_id)
 {
-    add_options_page('My Plugin Options', 'Requisição', 'manage_options', 'my-unique-identifier', 'my_plugin_options');
-}
 
-/** adiciona o menu no dashboard */
-add_action('admin_menu', 'my_plugin_menu');
+    // $url = 'http://django:8000/buyers/';
+    $url = 'http://service-django-dev:8000/buyers/';
+    $api_key = 'Api-Key 8eIPr75z.7VDE85JQpskc5L2Krm1mrPUPuQ0U8cOu';
 
-/** função que vai fazer alguma coisa  */
-function my_plugin_options()
-{
-    if (!current_user_can('manage_options')) {
-        wp_die(__('Você não tem permissão suficiente para acessar essa pagina'));
-    }
-
-    $current_user_id = get_current_user_id();
-    $user_meta = get_user_meta($current_user_id);
-    $user_data = get_userdata($current_user_id);
-
+    $user_meta = get_user_meta($user_id);
+    $user_data = get_userdata($user_id);
 
     $bday = $user_meta['birthdate']['0'];
     $cpf_cnpj = $user_meta['cpfcnpj']['0'];
     $email = $user_data->data->user_email;
     $firstName = $user_meta['first_name']['0'];
     $lastName = $user_meta['last_name']['0'];
-
-    echo 'try<br>';
+    $phone = $user_meta['phone']['0'];
 
     $imopay_id = $user_meta['imopay_id']['0'];
 
-    echo "pos imopay_id |$imopay_id|<br>";
-
-    echo '<br><br><br>';
-
-    $url = 'http://service-django-dev:8000/buyers/';
-    $api_key = 'Api-Key 8eIPr75z.7VDE85JQpskc5L2Krm1mrPUPuQ0U8cOu';
-
     if ($imopay_id == null) {
-        echo 'Fazer o POST<br>';
 
         $response = wp_remote_post($url, $args = [
 
@@ -67,17 +179,17 @@ function my_plugin_options()
                 'email' => $email,
                 'first_name' => $firstName,
                 'last_name' => $lastName,
-                'mobile_phone' => '84999999999'
+                'mobile_phone' => $phone
 
             ])
         ]);
     } else {
-        echo 'Fazer o PATCH<br>';
-        //faz PUT
+
         $url_put = $url . "$imopay_id/";
 
         $response = wp_remote_post($url_put, $args = [
-            'method'      => 'PATCH',
+
+            'method' => 'PATCH',
             'headers' => [
                 'Content-Type' => 'application/json',
                 'Authorization' => $api_key
@@ -88,112 +200,26 @@ function my_plugin_options()
                 'email' => $email,
                 'first_name' => $firstName,
                 'last_name' => $lastName,
-                'mobile_phone' => '84999999999'
+                'mobile_phone' => $phone
 
             ])
         ]);
     }
 
-    echo '<br><br><br>';
-
-    var_dump($response);
-
-    echo '<br><br><br>';
-
     $http_code = wp_remote_retrieve_response_code($response);
     $body = json_decode($response['body'], true);
 
-
-    echo '<br><br><br>';
-    var_dump($http_code);
-
-    echo '<br><br><br>';
-    var_dump($body);
-
-    echo '<br><br><br>';
-    echo '|';
-    echo $http_code === 200;
-    echo '|';
-
-    echo '<br><br><br>';
-    echo '|';
-    echo $http_code === 201;
-    echo '|';
-
-    echo '<br><br><br>';
-    echo '|';
-    echo $http_code === 200 || $http_code === 201;
-    echo '|';
-
-    echo '<br><br><br>';
-
     if ($http_code === 200 || $http_code === 201) {
-        echo 'Entrou if!';
         return update_user_meta(
-            $current_user_id,
+            $user_id,
             'imopay_id',
             $body['id']
         );
     } else {
-        echo 'Entrou else! Faça sua lógica para retornar pro usuário!';
         echo '<pre>';
-        print_r($http_code);
+        print_r("Erro na Requisição: $http_code");
         echo '</pre>';
     }
-}
-
-/* Trecho de codigo sem DEBUG ---------------------------------------------------------------------*/
-
-add_action('profile_update', 'chama_api', 10, 2);
-
-function chama_api($user_id)
-{
-
-    // $url = 'http://django:8000/buyers/';
-
-    // $user_meta = get_user_meta($user_id);
-    // $user_data = get_userdata($user_id);
-
-    // $bday = $user_meta['birthdate']['0'];
-    // $cpf_cnpj = $user_meta['cpfcnpj']['0'];
-    // $email = $user_data->data->user_email;
-    // $firstName = $user_meta['first_name']['0'];
-    // $lastName = $user_meta['last_name']['0'];
-    // $phone = $user_meta['phone']['0'];
-
-    // $response = wp_remote_post($url, $args = [
-
-    //     'headers' => [
-    //         'Content-Type' => 'application/json',
-    //         'Authorization' => 'Api-Key 8eIPr75z.7VDE85JQpskc5L2Krm1mrPUPuQ0U8cOu'
-    //     ],
-    //     'body' => json_encode([
-    //         'birthdate' => $bday,
-    //         'cpf_cnpj' => $cpf_cnpj,
-    //         'email' => $email,
-    //         'first_name' => $firstName,
-    //         'last_name' => $lastName,
-    //         'mobile_phone' => $phone
-
-    //     ])
-    // ]);
-
-    // $http_code = wp_remote_retrieve_response_code($response);
-    // $body = json_decode($response['body'], true);
-
-    // if ($http_code == 200 || $http_code == 201) {
-    // return update_user_meta(
-    //     $user_id,
-    //     'imopay_id',
-    //     $body['id']
-    // );
-    // } else {
-    // echo '<pre>';
-    // print_r("Erro na Requisição: $http_code");
-    // echo '</pre>';
-    // }
-
-
 }
 
 /* IMPUTS DE DATA/CPF/TELEFONE---------------------------------------------------------------------*/
