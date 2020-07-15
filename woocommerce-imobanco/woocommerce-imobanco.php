@@ -30,8 +30,6 @@ function my_plugin_options()
         wp_die(__('Você não tem permissão suficiente para acessar essa pagina'));
     }
 
-    $url = 'http://django:8000/buyers/';
-
     $current_user_id = get_current_user_id();
     $user_meta = get_user_meta($current_user_id);
     $user_data = get_userdata($current_user_id);
@@ -43,43 +41,25 @@ function my_plugin_options()
     $firstName = $user_meta['first_name']['0'];
     $lastName = $user_meta['last_name']['0'];
 
+    echo 'try<br>';
 
-    try {
-        echo 'try';
+    $imopay_id = $user_meta['imopay_id']['0'];
 
-        $imopay_id = $user_meta['imopay_id']['0'];
+    echo "pos imopay_id |$imopay_id|<br>";
 
-        echo 'pos imopay_id';
+    echo '<br><br><br>';
 
-        if ($user_meta['imopay_id']['0'] != null) {
-            //faz PUT
-            $url_put = "http://django:8000/buyers/$imopay_id/";
+    $url = 'http://service-django-dev:8000/buyers/';
+    $api_key = 'Api-Key UHkcNQUD.ndo5RGm9jFKfmtiZYFh0Ckaxexi1dP6m';
 
-            $response = wp_remote_post($url_put, $args = [
-                'method'      => 'PATCH',
-                'headers' => [
-                    'Content-Type' => 'application/json',
-                    'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
-                ],
-                'body' => json_encode([
-                    'birthdate' => $bday,
-                    'cpf_cnpj' => $cpf_cnpj,
-                    'email' => $email,
-                    'first_name' => $firstName,
-                    'last_name' => $lastName,
-                    'mobile_phone' => '84999999999'
+    if ($imopay_id == null) {
+        echo 'Fazer o POST<br>';
 
-                ])
-            ]);
-        }
-    } catch (Exception $e) {
-        // faz o POST
-        echo 'catch';
         $response = wp_remote_post($url, $args = [
 
             'headers' => [
                 'Content-Type' => 'application/json',
-                'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
+                'Authorization' => $api_key
             ],
             'body' => json_encode([
                 'birthdate' => $bday,
@@ -91,24 +71,75 @@ function my_plugin_options()
 
             ])
         ]);
-    } finally {
-        echo 'finally';
-        var_dump($response);
+    }
+    else{
+        echo 'Fazer o PATCH<br>';
+        //faz PUT
+        $url_put = $url."$imopay_id/";
 
-        $http_code = wp_remote_retrieve_response_code($response);
-        $body = json_decode($response['body'], true);
+        $response = wp_remote_post($url_put, $args = [
+            'method'      => 'PATCH',
+            'headers' => [
+                'Content-Type' => 'application/json',
+                'Authorization' => $api_key
+            ],
+            'body' => json_encode([
+                'birthdate' => $bday,
+                'cpf_cnpj' => $cpf_cnpj,
+                'email' => $email,
+                'first_name' => $firstName,
+                'last_name' => $lastName,
+                'mobile_phone' => '84999999999'
 
-        if ($http_code === 200 || $http_code === 201) {
-            return update_user_meta(
-                $user_id,
-                'imopay_id',
-                $body['id']
-            );
-        } else {
-            echo '<pre>';
-            print_r($http_code);
-            echo '</pre>';
-        }
+            ])
+        ]);
+    }
+
+    echo '<br><br><br>';
+
+    var_dump($response);
+
+    echo '<br><br><br>';
+
+    $http_code = wp_remote_retrieve_response_code($response);
+    $body = json_decode($response['body'], true);
+
+
+    echo '<br><br><br>';
+    var_dump($http_code);
+
+    echo '<br><br><br>';
+    var_dump($body);
+
+    echo '<br><br><br>';
+    echo '|';
+    echo $http_code === 200;
+    echo '|';
+
+    echo '<br><br><br>';
+    echo '|';
+    echo $http_code === 201;
+    echo '|';
+
+    echo '<br><br><br>';
+    echo '|';
+    echo $http_code === 200 || $http_code === 201;
+    echo '|';
+
+    echo '<br><br><br>';
+
+    if ($http_code === 200 || $http_code === 201) {
+        echo 'Entrou if!';
+        return update_user_meta(
+            $current_user_id,
+            'imopay_id',
+            $body['id']
+        );
+    } else {
+        echo 'Entrou else! Faça sua lógica para retornar pro usuário!';
+        echo '<pre>';
+        print_r($http_code);
+        echo '</pre>';
     }
 }
 
@@ -119,48 +150,48 @@ add_action('profile_update', 'chama_api', 10, 2);
 function chama_api($user_id)
 {
 
-    $url = 'http://django:8000/buyers/';
+    // $url = 'http://django:8000/buyers/';
 
-    $user_meta = get_user_meta($user_id);
-    $user_data = get_userdata($user_id);
+    // $user_meta = get_user_meta($user_id);
+    // $user_data = get_userdata($user_id);
 
-    $bday = $user_meta['birthdate']['0'];
-    $cpf_cnpj = $user_meta['cpfcnpj']['0'];
-    $email = $user_data->data->user_email;
-    $firstName = $user_meta['first_name']['0'];
-    $lastName = $user_meta['last_name']['0'];
-    $phone = $user_meta['phone']['0'];
+    // $bday = $user_meta['birthdate']['0'];
+    // $cpf_cnpj = $user_meta['cpfcnpj']['0'];
+    // $email = $user_data->data->user_email;
+    // $firstName = $user_meta['first_name']['0'];
+    // $lastName = $user_meta['last_name']['0'];
+    // $phone = $user_meta['phone']['0'];
 
-    $response = wp_remote_post($url, $args = [
+    // $response = wp_remote_post($url, $args = [
 
-        'headers' => [
-            'Content-Type' => 'application/json',
-            'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
-        ],
-        'body' => json_encode([
-            'birthdate' => $bday,
-            'cpf_cnpj' => $cpf_cnpj,
-            'email' => $email,
-            'first_name' => $firstName,
-            'last_name' => $lastName,
-            'mobile_phone' => $phone
+    //     'headers' => [
+    //         'Content-Type' => 'application/json',
+    //         'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
+    //     ],
+    //     'body' => json_encode([
+    //         'birthdate' => $bday,
+    //         'cpf_cnpj' => $cpf_cnpj,
+    //         'email' => $email,
+    //         'first_name' => $firstName,
+    //         'last_name' => $lastName,
+    //         'mobile_phone' => $phone
 
-        ])
-    ]);
+    //     ])
+    // ]);
 
-    $http_code = wp_remote_retrieve_response_code($response);
-    $body = json_decode($response['body'], true);
+    // $http_code = wp_remote_retrieve_response_code($response);
+    // $body = json_decode($response['body'], true);
 
     // if ($http_code == 200 || $http_code == 201) {
-    return update_user_meta(
-        $user_id,
-        'imopay_id',
-        $body['id']
-    );
+    // return update_user_meta(
+    //     $user_id,
+    //     'imopay_id',
+    //     $body['id']
+    // );
     // } else {
-    echo '<pre>';
-    print_r("Erro na Requisição: $http_code");
-    echo '</pre>';
+    // echo '<pre>';
+    // print_r("Erro na Requisição: $http_code");
+    // echo '</pre>';
     // }
 
 
