@@ -36,39 +36,45 @@ function my_plugin_options()
     $user_meta = get_user_meta($current_user_id);
     $user_data = get_userdata($current_user_id);
 
-    //     //   $user_data_email = $user_data->data->user_email; // forma de acessar os attrs quando for stdclass
 
-    $bday = $user_meta['birthdate']['0']; // forma de acessar os attr quando for array
+    $bday = $user_meta['birthdate']['0'];
     $cpf_cnpj = $user_meta['cpfcnpj']['0'];
     $email = $user_data->data->user_email;
     $firstName = $user_meta['first_name']['0'];
     $lastName = $user_meta['last_name']['0'];
-    //  $phone = 
-    $imopay_id = $user_meta['imopay_id']['0'];
 
-    if ($user_meta['imopay_id']['0'] != null) {
-        //fazer PUT
-        $url_put = "http://django:8000/buyers/$imopay_id/";
 
-        $response = wp_remote_post($url_put, $args = [
-            'method'      => 'PATCH',
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
-            ],
-            'body' => json_encode([
-                'birthdate' => $bday,
-                'cpf_cnpj' => $cpf_cnpj,
-                'email' => $email,
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'mobile_phone' => '84999999999'
+    try {
+        echo 'try';
 
-            ])
-        ]);
-    } else {
-        // fazer o POST
+        $imopay_id = $user_meta['imopay_id']['0'];
 
+        echo 'pos imopay_id';
+
+        if ($user_meta['imopay_id']['0'] != null) {
+            //faz PUT
+            $url_put = "http://django:8000/buyers/$imopay_id/";
+
+            $response = wp_remote_post($url_put, $args = [
+                'method'      => 'PATCH',
+                'headers' => [
+                    'Content-Type' => 'application/json',
+                    'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
+                ],
+                'body' => json_encode([
+                    'birthdate' => $bday,
+                    'cpf_cnpj' => $cpf_cnpj,
+                    'email' => $email,
+                    'first_name' => $firstName,
+                    'last_name' => $lastName,
+                    'mobile_phone' => '84999999999'
+
+                ])
+            ]);
+        }
+    } catch (Exception $e) {
+        // faz o POST
+        echo 'catch';
         $response = wp_remote_post($url, $args = [
 
             'headers' => [
@@ -85,38 +91,28 @@ function my_plugin_options()
 
             ])
         ]);
-    } // fim do else     
+    } finally {
+        echo 'finally';
+        var_dump($response);
 
+        $http_code = wp_remote_retrieve_response_code($response);
+        $body = json_decode($response['body'], true);
 
-
-    $http_code = wp_remote_retrieve_response_code($response);
-    $body = json_decode($response['body'], true);
-
-    if ($http_code == 200 || $http_code == 201) {
-        return update_user_meta(
-            $user_id,
-            'imopay_id',
-            $body['id']
-        );
-    } else {
-        echo '<pre>';
-        print_r("Erro na Requisição - Status Code: $http_code");
-        echo '</pre>';
+        if ($http_code === 200 || $http_code === 201) {
+            return update_user_meta(
+                $user_id,
+                'imopay_id',
+                $body['id']
+            );
+        } else {
+            echo '<pre>';
+            print_r($http_code);
+            echo '</pre>';
+        }
     }
 }
 
-// essa função cria um paragrafo na tela principal do WP
-/*function ola_plugin(){	
-	?>
-	<div>
-		<p>Teste de Atualização!<p>
-	<div>
-	<?php
-}*/
-
-// add_action('all_admin_notices', 'ola_plugin');
-
-/* Trecho de codigo sem DEBUG */
+/* Trecho de codigo sem DEBUG ---------------------------------------------------------------------*/
 
 add_action('profile_update', 'chama_api', 10, 2);
 
@@ -155,17 +151,19 @@ function chama_api($user_id)
     $http_code = wp_remote_retrieve_response_code($response);
     $body = json_decode($response['body'], true);
 
-    if ($http_code == 200 || $http_code == 201) {
-        return update_user_meta(
-            $user_id,
-            'imopay_id',
-            $body['id']
-        );
-    } else {
-        echo '<pre>';
-        print_r("Erro na Requisição: $http_code");
-        echo '</pre>';
-    }
+    // if ($http_code == 200 || $http_code == 201) {
+    return update_user_meta(
+        $user_id,
+        'imopay_id',
+        $body['id']
+    );
+    // } else {
+    echo '<pre>';
+    print_r("Erro na Requisição: $http_code");
+    echo '</pre>';
+    // }
+
+
 }
 
 /* INICIO DO CAMPO DE BIRTHDATE*/
