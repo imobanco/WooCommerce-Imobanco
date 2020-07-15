@@ -14,16 +14,16 @@ License: GPLv2 or later
 
 /*Trecho do codigo para DEBUG*/
 
-/** Step 1. */
+/** função que cria a pagina extra */
 function my_plugin_menu()
 {
     add_options_page('My Plugin Options', 'Requisição', 'manage_options', 'my-unique-identifier', 'my_plugin_options');
 }
 
-/** Step 2 (from text above). */
+/** adiciona o menu no dashboard */
 add_action('admin_menu', 'my_plugin_menu');
 
-/** Step 3. */
+/** função que vai fazer alguma coisa  */
 function my_plugin_options()
 {
     if (!current_user_can('manage_options')) {
@@ -50,7 +50,7 @@ function my_plugin_options()
     echo '<br><br><br>';
 
     $url = 'http://service-django-dev:8000/buyers/';
-    $api_key = 'Api-Key UHkcNQUD.ndo5RGm9jFKfmtiZYFh0Ckaxexi1dP6m';
+    $api_key = 'Api-Key 8eIPr75z.7VDE85JQpskc5L2Krm1mrPUPuQ0U8cOu';
 
     if ($imopay_id == null) {
         echo 'Fazer o POST<br>';
@@ -71,11 +71,10 @@ function my_plugin_options()
 
             ])
         ]);
-    }
-    else{
+    } else {
         echo 'Fazer o PATCH<br>';
         //faz PUT
-        $url_put = $url."$imopay_id/";
+        $url_put = $url . "$imopay_id/";
 
         $response = wp_remote_post($url_put, $args = [
             'method'      => 'PATCH',
@@ -166,7 +165,7 @@ function chama_api($user_id)
 
     //     'headers' => [
     //         'Content-Type' => 'application/json',
-    //         'Authorization' => 'Api-Key 2MHFG1yr.t0t2243G9nSSuOqM90JkbA4Ndx9JwmCK'
+    //         'Authorization' => 'Api-Key 8eIPr75z.7VDE85JQpskc5L2Krm1mrPUPuQ0U8cOu'
     //     ],
     //     'body' => json_encode([
     //         'birthdate' => $bday,
@@ -196,6 +195,8 @@ function chama_api($user_id)
 
 
 }
+
+/* IMPUTS DE DATA/CPF/TELEFONE---------------------------------------------------------------------*/
 
 /* INICIO DO CAMPO DE BIRTHDATE*/
 /**
