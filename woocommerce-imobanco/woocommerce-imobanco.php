@@ -164,21 +164,21 @@ function chama_api($user_id)
     $phone = $user_meta['phone']['0'];
 
     $imopay_id = $user_meta['imopay_id']['0'];
-    
+
     $request_header = [
         'Content-Type' => 'application/json',
         'Authorization' => $api_key
     ];
-    
+
     $request_body = json_encode([
-         'birthdate' => $bday,
-         'cpf_cnpj' => $cpf_cnpj,
-         'email' => $email,
-         'first_name' => $firstName,
-         'last_name' => $lastName,
-         'mobile_phone' => $phone
-     ]);
-    
+        'birthdate' => $bday,
+        'cpf_cnpj' => $cpf_cnpj,
+        'email' => $email,
+        'first_name' => $firstName,
+        'last_name' => $lastName,
+        'mobile_phone' => $phone
+    ]);
+
 
     if ($imopay_id == null) {
         $request_url = $url;
