@@ -164,47 +164,35 @@ function chama_api($user_id)
     $phone = $user_meta['phone']['0'];
 
     $imopay_id = $user_meta['imopay_id']['0'];
+    
+    $request_header = [
+        'Content-Type' => 'application/json',
+        'Authorization' => $api_key
+    ];
+    
+    $request_body = json_encode([
+         'birthdate' => $bday,
+         'cpf_cnpj' => $cpf_cnpj,
+         'email' => $email,
+         'first_name' => $firstName,
+         'last_name' => $lastName,
+         'mobile_phone' => $phone
+     ]);
+    
 
     if ($imopay_id == null) {
-
-        $response = wp_remote_post($url, $args = [
-
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => $api_key
-            ],
-            'body' => json_encode([
-                'birthdate' => $bday,
-                'cpf_cnpj' => $cpf_cnpj,
-                'email' => $email,
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'mobile_phone' => $phone
-
-            ])
-        ]);
+        $request_url = $url;
+        $request_method = 'POST';
     } else {
-
-        $url_put = $url . "$imopay_id/";
-
-        $response = wp_remote_post($url_put, $args = [
-
-            'method' => 'PATCH',
-            'headers' => [
-                'Content-Type' => 'application/json',
-                'Authorization' => $api_key
-            ],
-            'body' => json_encode([
-                'birthdate' => $bday,
-                'cpf_cnpj' => $cpf_cnpj,
-                'email' => $email,
-                'first_name' => $firstName,
-                'last_name' => $lastName,
-                'mobile_phone' => $phone
-
-            ])
-        ]);
+        $request_url = $url . "$imopay_id/";
+        $request_method = 'PATCH';
     }
+
+    $response = wp_remote_post($request_url, $args = [
+        'method' => $request_method,
+        'headers' => $request_header,
+        'body' => $request_body
+    ]);
 
     $http_code = wp_remote_retrieve_response_code($response);
     $body = json_decode($response['body'], true);
