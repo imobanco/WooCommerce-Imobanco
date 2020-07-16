@@ -210,7 +210,7 @@ function chama_api($user_id)
     }
 }
 
-/* IMPUTS DE DATA/CPF/TELEFONE---------------------------------------------------------------------*/
+/* INPUTS DE DATA/CPF/TELEFONE---------------------------------------------------------------------*/
 
 /* INICIO DO CAMPO DE BIRTHDATE*/
 /**
