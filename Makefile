@@ -10,17 +10,17 @@ down:
 build:
 	docker-compose build $(args)
 
-bash.exec:
-	docker-compose exec wordpress bash $(args)
-
 bash:
 	docker-compose run wordpress bash $(args)
 
-bash.bitnami:
-	docker-compose run --user bitnami wordpress bash $(args)
+bash.exec:
+	docker-compose exec wordpress bash $(args)
+
+bash.exec.bitnami:
+	docker-compose exec --user bitnami wordpress bash $(args)
 
 wp:
-	docker-compose run wordpress wp $(args)
+	docker-compose exec --user bitnami wordpress wp $(args)
 
 remove.volumes:
 	docker-compose down --volumes
