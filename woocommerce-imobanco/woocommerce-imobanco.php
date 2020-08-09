@@ -11,8 +11,6 @@ License: GPLv2 or later
 
 namespace WoocommerceImobanco;
 
-var_dump(getenv('WOO_IMOPAY_API_KEY'));
-die;
 if ( ! defined( 'ABSPATH' ) ) {
     exit; // Exit if accessed directly
 }
