@@ -87,7 +87,7 @@ function imopay_update_user($imopay_id, $data, $customer = null)
         return $response;
     }
 
-    //imopay_save_user_id($imopay_id, $customer);
+    imopay_save_user_id($imopay_id, $customer);
 
     return $response;
 }
