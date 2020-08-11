@@ -27,9 +27,19 @@ function imopay_integration_customer_actions($id) {
 
         if (null == $imopay_id) {
             // usuário ainda não preencheu o endereço
-            try {
-               imopay_register_user($data, $customer);
-            } catch (\Exception $e) {}
+
+            // busca por usuário
+            $request = new \WoocommerceImobanco\Request();
+            $search = $request->post('buyers/search/', ['cpf_cnpj' => $data['cpf_cnpj']]);
+
+            if (isset($search->id)) {
+                $imopay_id = $search->id;
+                imopay_update_user($imopay_id, $data, $customer);
+            } else {
+                try {
+                    imopay_register_user($data, $customer);
+                } catch (\Exception $e) {}
+            }
         } else {
             try {
                imopay_update_user($imopay_id, $data, $customer);
@@ -67,7 +77,9 @@ function imopay_neighborhood_required_rule( $fields ) {
 
     return $fields;
 }
-
+// add_action('init', function() {
+//     print_r(get_user_meta(59)); die;
+// });
 /**
  * On order created
  */
