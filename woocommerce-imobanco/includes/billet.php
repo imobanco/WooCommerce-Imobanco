@@ -206,6 +206,13 @@ function init_imopay_billet_gateway_class(){
 
             // pagamento aprovado
 
+            error_log('BILLET RESPONSE '. json_encode($response));
+
+            if (!isset($response->id)) {
+                wc_add_notice('Ocorreu um erro ao tentar realizar o pagamento via boletos com o gateway. tente novamente', 'error');
+                return false;
+            }
+
             update_post_meta($order_id, '_imopay_order_id', $response->id );
             update_post_meta($order_id, '_imopay_billet', json_encode($response->payment_method) );
 

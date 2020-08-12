@@ -21,8 +21,8 @@ if(!defined('WOO_IMOPAY_ENVIRONMENT')) {
 
 if (!defined('WOO_IMOPAY_SELLER_ID')) {
     define('WOO_IMOPAY_SELLER_ID', getenv('WOO_IMOPAY_SELLER_ID'));
-
 }
+
 if (!defined('WOO_IMOPAY_API_KEY')) {
     define('WOO_IMOPAY_API_KEY', getenv('WOO_IMOPAY_API_KEY'));
 }
