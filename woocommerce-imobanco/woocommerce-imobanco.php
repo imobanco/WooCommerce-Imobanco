@@ -21,14 +21,14 @@ if(!defined('WOO_IMOPAY_ENVIRONMENT')) {
 
 if (!defined('WOO_IMOPAY_SELLER_ID')) {
     define('WOO_IMOPAY_SELLER_ID', getenv('WOO_IMOPAY_SELLER_ID'));
-
 }
+
 if (!defined('WOO_IMOPAY_API_KEY')) {
     define('WOO_IMOPAY_API_KEY', getenv('WOO_IMOPAY_API_KEY'));
 }
 
 if (!defined('WOO_IMOPAY_API_URL')) {
-    define('WOO_IMOPAY_API_URL', getenv('WOO_IMOPAY_API_URL') ? getenv('WOO_IMOPAY_API_URL') : ('production' == WOO_IMOPAY_ENVIRONMENT ? 'https://34.196.253.77/' : 'http://test.imopay.com.br') );
+    define('WOO_IMOPAY_API_URL', getenv('WOO_IMOPAY_API_URL') ? getenv('WOO_IMOPAY_API_URL') : ('prod' == WOO_IMOPAY_ENVIRONMENT ? 'https://34.196.253.77/' : 'http://test.imopay.com.br') );
 }
 
 define('WOO_IMOPAY_PLUGIN_DIR', plugin_dir_path(__FILE__));
