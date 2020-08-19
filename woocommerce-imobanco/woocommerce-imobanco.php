@@ -73,6 +73,12 @@ define('WOO_IMOPAY_PLUGIN_SETTINGS', [
     ]
 ]);
 
+// // somente para testes, remove os dados do imopay do banco do woocommerce
+// add_action('init' , function() {
+//     delete_user_meta(60, '_imopay_user_id' );
+//     delete_user_meta(60, '_imopay_address_id' );
+// });
+
 require WOO_IMOPAY_PLUGIN_DIR . 'includes/functions.php';
 require WOO_IMOPAY_PLUGIN_DIR . 'includes/Request.php';
 require WOO_IMOPAY_PLUGIN_DIR . 'includes/hooks.php';
