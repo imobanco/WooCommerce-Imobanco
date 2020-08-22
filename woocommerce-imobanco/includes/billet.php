@@ -176,7 +176,19 @@ function init_imopay_billet_gateway_class(){
                 'payment_method'            => [
                                                 'expiration_date' => date('Y-m-d', strtotime(WOO_IMOPAY_EXPIRATION_DATE_INCREMENT)),
                                                 'limit_date' => date('Y-m-d', strtotime(WOO_IMOPAY_LIMIT_DATE_INCREMENT)),
-                                            ]
+                ],
+                'reference_id' => $order_id,
+                'metadata' => [
+                    'woocommerce' => [
+                        'order' => [
+                            'customer_id' => $customer,
+                            'order_key' => $order->get_data() ['order_key'],
+                            'customer_user_agent' => $order->get_data() ['customer_user_agent'],
+                            'cart_hash' => $order->get_data() ['cart_hash']
+                        ],
+                        'blogname' => get_bloginfo('name')
+                    ]
+                ]
             ];
 
             // request API imopay

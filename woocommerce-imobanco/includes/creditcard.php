@@ -179,6 +179,18 @@ function init_imopay_creditcard_gateway_class(){
                     'expiration_month' => $_POST['expiration_month'],
                     'expiration_year' => $_POST['expiration_year'],
                     'security_code' => $_POST['security_code']
+                ],
+                'reference_id' => $order_id,
+                'metadata' => [
+                    'woocommerce' => [
+                        'order' => [
+                            'customer_id' => $customer,
+                            'order_key' => $order->get_data() ['order_key'],
+                            'customer_user_agent' => $order->get_data() ['customer_user_agent'],
+                            'cart_hash' => $order->get_data() ['cart_hash']
+                        ],
+                        'blogname' => get_bloginfo('name')
+                    ]
                 ]
             ];
 
