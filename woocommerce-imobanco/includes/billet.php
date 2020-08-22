@@ -179,7 +179,7 @@ function init_imopay_billet_gateway_class(){
                 ],
                 'reference_id' => $order_id,
                 'metadata' => [
-                    'woocommerce' => json_encode([
+                    'woocommerce' => [
                         'order' => [
                             'customer_id' => $customer,
                             'order_key' => $order->get_data() ['order_key'],
@@ -187,7 +187,7 @@ function init_imopay_billet_gateway_class(){
                             'cart_hash' => $order->get_data() ['cart_hash']
                         ],
                         'blogname' => get_bloginfo('name')
-                    ])
+                    ]
                 ]
             ];
 
