@@ -20,5 +20,27 @@
         <label for="security_code" class="security_code">Código de segurança (CVV)</label>
         <input type="number" class="security_code" name="security_code">
     </div>
+    <div class="form-row form-row-wide">
+        <label for="installments">Parcelas</label>
+
+        <select name="installment input-text">
+            <?php foreach($installments as $key => $fee): ?>
+
+                <option value="<?= $key + 1 ?>">
+                <?php
+                if ($fee > 0)
+                    $installment = ($total + ( $total * ( $fee / 100 ) )) / ($key + 1);
+                else
+                    $installment = $total / ( $key + 1 );
+                ?>
+                    <?= $key + 1 ?>x (R$ <?= number_format($installment,2,',','.') ?> <?= $fee == 0 ? 'sem juros': 'Juros de '.$fee.'%' ?>)
+                </option>
+                <?php
+                if (0 != $min_installment_value && $installment <= $min_installment_value) break;
+                ?>
+            <?php endforeach ?>
+        </select>
+    </div>
+    <div style="clear:both"></div>
 
 </div>

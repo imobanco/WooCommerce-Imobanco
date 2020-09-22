@@ -99,6 +99,17 @@ function imopay_register_address($imopay_id, $data, $customer = null)
     }
 
     $request = new Request();
+
+    $meta = get_user_meta($customer);
+    $response = $request->post('addresses/get_by_document/', [
+        'cpf_cnpj' => $meta['billing_cpf'] ?? $meta['billing_cnpj']
+    ]);
+
+    if (isset($response->id)) {
+        imopay_save_address_id($response->id, $customer);
+        return $response;
+    }
+
     $data['owner'] = $imopay_id;
 
     $response = $request->post('addresses/create_by_name_and_uf', $data);
@@ -133,14 +144,18 @@ function imopay_get_address_from_formdata($imopay_id)
         return [];
     }
 
-    return [
+    $data = [
         'owner'                     => $imopay_id,
         'uf'                        => $_POST['billing_state'],
         'city'                      => ucwords(strtolower($_POST['billing_city'])),
         'neighborhood'              => $_POST['billing_neighborhood'],
         'street'                    => $_POST['billing_address_1'],
         'zip_code'                  => str_replace('-', '', trim($_POST['billing_postcode'])),
+        'number'                    => $_POST['billing_number'],
+        'complement'                => $_POST['billing_address_2'] ?? ''
     ];
+
+    return $data;
 }
 
 function imopay_save_user_id($id, $customer = null)
