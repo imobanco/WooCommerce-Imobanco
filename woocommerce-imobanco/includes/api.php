@@ -31,7 +31,7 @@ function woo_imobanco_update_order($params) {
     }
 
     if ($content->Type == 'Notification') {
-      $id = json_decode($content->Message)->imopay_transaction_id;
+      $id = json_decode($content->Message)->imopay_id;
       error_log('Notification received '.$id);
     } else {
       return;

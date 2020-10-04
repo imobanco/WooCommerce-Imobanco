@@ -116,6 +116,27 @@ function init_imopay_creditcard_gateway_class(){
                 echo wpautop( wptexturize( $description ) );
             }
 
+            $total = WC()->cart->cart_contents_total + WC()->cart->tax_total;
+            $min_installment_value = 0; // preencher com 0 se não quiser limitar
+            // todo: preencher no painel
+
+            // taxas de parcelamento por parcela em % (sem o caractere %)
+            $installments = [
+                0, // 1x, ex: 0
+                0, // 2x, ex: 3
+                0, // 3x, ex: 5
+                0, // ...
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0,
+                0, // 12x
+                // todo: preencher via painel
+            ];
+
             require WOO_IMOPAY_PLUGIN_DIR . 'includes/forms/creditcard_form.php';
         }
 
@@ -178,7 +199,11 @@ function init_imopay_creditcard_gateway_class(){
                     'card_number' => $_POST['card_number'],
                     'expiration_month' => $_POST['expiration_month'],
                     'expiration_year' => $_POST['expiration_year'],
-                    'security_code' => $_POST['security_code']
+                    'security_code' => $_POST['security_code'],
+                    'installment_plan' => [
+                        'number_installments' => $_POST['installment'],
+                        'mode' => 'interest_free'
+                    ]
                 ],
                 'reference_id' => $order_id,
                 'metadata' => [
