@@ -59,7 +59,7 @@ function init_imopay_creditcard_gateway_class(){
                     'title'       => __( 'Title', $this->domain ),
                     'type'        => 'text',
                     'description' => __( 'This controls the title which the user sees during checkout.', $this->domain ),
-                    'default'     => __( 'Custom Payment', $this->domain ),
+                    'default'     => __( 'Cartão de Crédito', $this->domain ),
                     'desc_tip'    => true,
                 ),
                 'order_status' => array(
@@ -75,7 +75,7 @@ function init_imopay_creditcard_gateway_class(){
                     'title'       => __( 'Description', $this->domain ),
                     'type'        => 'textarea',
                     'description' => __( 'Payment method description that the customer will see on your checkout.', $this->domain ),
-                    'default'     => __('Payment Information', $this->domain),
+                    'default'     => __('Informação do método de pagamento', $this->domain),
                     'desc_tip'    => true,
                 ),
                 'instructions' => array(
