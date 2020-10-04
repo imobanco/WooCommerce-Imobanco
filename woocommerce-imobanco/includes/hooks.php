@@ -45,16 +45,23 @@ function imopay_integration_customer_actions($id) {
             try {
                imopay_update_user($payer_id, $data, $customer);
             } catch (\Exception $e) {}
+
+            if (null == $address_id) {
+                if (isset($meta['billing_address_1'][0]) && !empty($meta['billing_address_1'][0])) {
+                    try {
+                        imopay_register_address($payer_id, imopay_get_address_from_formdata($payer_id), $customer);
+                    } catch (\Exception $e) {}
+                }
+            }
+            else{
+                try {
+                    imopay_update_address($address_id, imopay_get_address_from_formdata($payer_id), $customer);
+                 } catch (\Exception $e) {}
+            }
         }
     }
 
-    if (null == $address_id && null != $payer_id) {
-        if (isset($meta['billing_address_1'][0]) && !empty($meta['billing_address_1'][0])) {
-            try {
-                imopay_register_address($payer_id, imopay_get_address_from_formdata($payer_id), $customer);
-            } catch (\Exception $e) {}
-        }
-    }
+    
 }
 add_action('woocommerce_created_customer', 'imopay_integration_customer_actions');
 add_action('woocommerce_update_customer', 'imopay_integration_customer_actions');
