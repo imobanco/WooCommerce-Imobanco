@@ -23,7 +23,7 @@
     <div class="form-row form-row-wide">
         <label for="installments">Parcelas</label>
 
-        <select name="installment input-text">
+        <select name="installment">
             <?php foreach($installments as $key => $fee): ?>
 
                 <option value="<?= $key + 1 ?>">
