@@ -124,6 +124,44 @@ function imopay_register_address($imopay_id, $data, $customer = null)
     return $response;
 }
 
+
+function imopay_update_address($imopay_id, $data, $customer = null)
+{
+    if (null == $customer) {
+        $customer = WC()->session->get('customer');
+    }
+
+    $request = new Request();
+    $response = $request->put('addresses/update_by_name_and_uf/'.$imopay_id, $data);
+
+    if (null == $response) {
+        throw new \Exception('O gateway de pagamentos não pôde ser acessado');
+        return;
+    }
+
+    if (isset($response->status_code)) {
+        if (isset($response->non_field_errors)) {
+            throw new \Exception($response->non_field_errors);
+        }
+
+        if (isset($response->payer[0])) {
+            throw new \Exception(str_replace('Este campo', 'O '.WOO_IMOPAY_PLUGIN_SETTINGS['field_labels']['payer'], $response->payer[0]));
+        }
+
+        if (isset($response->payment_method)) {
+            foreach($response->payment_method as $key => $item) {
+                throw new \Exception(str_replace('Este campo', 'O '.WOO_IMOPAY_PLUGIN_SETTINGS['field_labels'][$key], $item[0]));
+            }
+        }
+
+        return $response;
+    }
+
+    // imopay_save_address_id($imopay_id, $customer);
+
+    return $response;
+}
+
 function imopay_get_user_from_formdata()
 {
     if (empty($_POST)) {
