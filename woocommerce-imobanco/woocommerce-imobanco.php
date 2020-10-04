@@ -3,7 +3,7 @@
 Plugin Name: WooCommerce Imopay gateway
 Plugin URI: https://www.imobanco.com.br/
 Description: Plugin para utilizar o gateway de pagamento do Imopay
-Version: 0.0.5a2
+Version: 0.0.6a1
 Author: Imobanco
 Author URI: https://www.imobanco.com.br/
 License: GPLv2 or later
