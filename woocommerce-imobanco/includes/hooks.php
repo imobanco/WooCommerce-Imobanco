@@ -49,17 +49,8 @@ function imopay_integration_customer_actions($id) {
 
     if (null == $address_id && null != $imopay_id) {
         if (isset($meta['billing_address_1'][0]) && !empty($meta['billing_address_1'][0])) {
-            $data = [
-                'owner'                     => $imopay_id,
-                'uf'                        => $meta['billing_state'][0],
-                'city'                      => ucwords(strtolower($meta['billing_city'][0])),
-                'neighborhood'              => $meta['billing_neighborhood'][0],
-                'street'                    => $meta['billing_address_1'][0],
-                'zip_code'                  => str_replace('-', '', trim($meta['billing_postcode'][0])),
-            ];
-
             try {
-                imopay_register_address($imopay_id, $data, $customer);
+                imopay_register_address($payer_id, imopay_get_address_from_formdata($payer_id), $customer);
             } catch (\Exception $e) {}
         }
     }
