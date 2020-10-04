@@ -79,4 +79,9 @@ class Request {
     {
         return $this->request('PUT', $path, $params);
     }
+
+    public function patch( $path, $params )
+    {
+        return $this->request('PATCH', $path, $params);
+    }
 }

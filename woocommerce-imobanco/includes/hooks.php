@@ -55,7 +55,7 @@ function imopay_integration_customer_actions($id) {
             }
             else{
                 try {
-                    imopay_update_address($payer_id, imopay_get_address_from_formdata($payer_id), $customer);
+                    imopay_update_address($address_id, imopay_get_address_from_formdata($payer_id), $customer);
                  } catch (\Exception $e) {}
             }
         }

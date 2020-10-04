@@ -132,7 +132,7 @@ function imopay_update_address($imopay_id, $data, $customer = null)
     }
 
     $request = new Request();
-    $response = $request->put('addresses/update_by_name_and_uf/'.$imopay_id, $data);
+    $response = $request->patch('addresses/'.$imopay_id.'/update_by_name_and_uf/', $data);
 
     if (null == $response) {
         throw new \Exception('O gateway de pagamentos não pôde ser acessado');
