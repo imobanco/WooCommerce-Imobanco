@@ -115,10 +115,6 @@ function imopay_register_address($imopay_id, $data, $customer = null)
 
     $data['owner'] = $imopay_id;
 
-    error_log('data do address no register: '.json_encode($data));
-    error_log('data do address[number] no register: '.$data['number']);
-    error_log('data do address[complement] no register: '.$data['complement']);
-
     $response = $request->post('addresses/create_by_name_and_uf', $data);
 
     if (isset($response->id)) {
@@ -161,10 +157,6 @@ function imopay_get_address_from_formdata($imopay_id)
         'number'                    => $_POST['billing_number'],
         'complement'                => $_POST['billing_address_2'] ?? ''
     ];
-
-    error_log('data do address: '.json_encode($data));
-    error_log('data do address[number]: '.$data['number']);
-    error_log('data do address[complement]: '.$data['complement']);
 
     return $data;
 }
