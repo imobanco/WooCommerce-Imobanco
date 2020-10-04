@@ -10,8 +10,9 @@ function imopay_integration_customer_actions($id) {
 
     $customer = WC()->session->get('customer') ['id'] ?? '';
     $meta = get_user_meta($customer);
-    $imopay_id = $meta['_imopay_user_id'][0] ?? null;
-    $address_id = $meta['_imopay_address_id'][0] ?? null;
+
+    $payer_id = imopay_get_user_id($customer);
+    $address_id = imopay_get_address_id($customer);
 
     if (isset($meta['billing_phone'][0], $meta['billing_birth_date'][0])) {
 
@@ -25,7 +26,7 @@ function imopay_integration_customer_actions($id) {
             'phone'                 => $meta['billing_cellphone'][0]
         ];
 
-        if (null == $imopay_id) {
+        if (null == $payer_id) {
             // usuário ainda não preencheu o endereço
 
             // busca por usuário
@@ -33,8 +34,8 @@ function imopay_integration_customer_actions($id) {
             $search = $request->post('buyers/search/', ['cpf_cnpj' => $data['cpf_cnpj']]);
 
             if (isset($search->id)) {
-                $imopay_id = $search->id;
-                imopay_update_user($imopay_id, $data, $customer);
+                $payer_id = $search->id;
+                imopay_update_user($payer_id, $data, $customer);
             } else {
                 try {
                     imopay_register_user($data, $customer);
@@ -42,12 +43,12 @@ function imopay_integration_customer_actions($id) {
             }
         } else {
             try {
-               imopay_update_user($imopay_id, $data, $customer);
+               imopay_update_user($payer_id, $data, $customer);
             } catch (\Exception $e) {}
         }
     }
 
-    if (null == $address_id && null != $imopay_id) {
+    if (null == $address_id && null != $payer_id) {
         if (isset($meta['billing_address_1'][0]) && !empty($meta['billing_address_1'][0])) {
             try {
                 imopay_register_address($payer_id, imopay_get_address_from_formdata($payer_id), $customer);
