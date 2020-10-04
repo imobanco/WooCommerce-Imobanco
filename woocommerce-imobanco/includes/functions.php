@@ -100,9 +100,11 @@ function imopay_register_address($imopay_id, $data, $customer = null)
 
     $request = new Request();
 
+    $cpf_cnpj = $meta['billing_cpf'] ?? $meta['billing_cnpj']
+
     $meta = get_user_meta($customer);
     $response = $request->post('addresses/get_by_document/', [
-        'cpf_cnpj' => $meta['billing_cpf'] ?? $meta['billing_cnpj']
+        'cpf_cnpj' => $cpf_cnpj[0]
     ]);
 
     if (isset($response->id)) {
